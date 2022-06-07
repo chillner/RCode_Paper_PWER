@@ -149,8 +149,28 @@ simul_sun <- function(Nsim = 10^4, cp, cf, alpha = 0.025, theta_A = 0.15, P, K, 
   results_sim[6,2] <- mean(percentage_false_fwer_fp)
   results_sim[7,1] <- mean(impact_pwer)
   results_sim[7,2] <- mean(impact_fwer)
-  
+  #RAE = mean(impact_fwer)*100/theta_A (theta_A = 0.1 here)
   reslist$parameters <- results_params
   reslist$results <- results_sim
   return(reslist)
 }
+#EXAMPLE:
+findR <- function(K,N){
+  piv <- 1/K*rep(1,K)
+  C <- contrastMatrix(n=K, frac=piv)
+  Diagonal <- diag(1/rowSums(C[,(K+1):(2*K)])); rownames(Diagonal) <- rownames(C)
+  C <- Diagonal%*%C
+  v <- as.factor(rep(1:(2*K), each = N/(2*K)))
+  X <- model.matrix(~v+0)
+  D <- C%*%solve(t(X)%*%X)%*%t(C)
+  D <- diag(1/sqrt(diag(D)))
+  R <- D%*%C%*%solve(t(X)%*%X)%*%t(C)%*%D #Correlation matrix of the multivar. t-distr.
+  R
+}
+nu <- function(K,N){N-2*K}
+
+#theta_A = 0.1:
+#K=2:
+cp <- critpwerfct(K=2, df=nu(K=2,N=1056), piv=1/2*rep(1,2), R=findR(K=2, N=1056), rnames=rownames(contrastMatrix(n=2, frac=1/2*rep(1,2))))
+cf <- critfwerfct(df=nu(K=2,N=1056), R=findR(K=2, N=1056))
+simul_sun(Nsim = 10^4, cp=cp, cf=cf, theta_A = .1, P = 0, K = 2, tau = 0)
