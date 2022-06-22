@@ -76,9 +76,48 @@ sim_piest <- function(Nsim = 10^4, samplesize = 100, stepsize = 0.05, seed = 423
   return(z)
 }
 
-######################################################
-#Alternative way to conduct the simulation (faster; use this)
-#######################################################
+#RUN SIMULATIONS:
+#equal treatment case (corrfct == 1):
+z100 <- sim_piest(samplesize = 100)
+z50 <- sim_piest(samplesize = 50)
+#unequal treatment case (corrfct == 2):
+y100 <- sim_piest(samplesize = 100, corrfct = 2)
+y50 <- sim_piest(samplesize = 50, corrfct = 2)
+
+##############################
+#Contour plots:
+##############################
+#Equal treatment case:
+#n = 100:
+filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(0.025, 0.02507), 
+               color.palette = function(n) gray.colors(n), 
+               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = contour(x=pi1.true, y=pi1.true, z = z100, levels = seq(0.025, 0.02507, 0.00001), add=T))
+#no lines:
+filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(0.025, 0.02507), 
+               color.palette = function(n) gray.colors(n), 
+               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]))
+#n = 50:
+filled.contour(x=pi1.true, y=pi1.true, z = z50, zlim = c(0.0249, 0.02515), 
+               color.palette = function(n) terrain.colors(n), 
+               main = "n=50", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = contour(x=pi1.true, y=pi1.true, z = z50, levels = seq(0.0249, 0.0252, 0.00002), add=T))
+#Unequal treatment case:
+#n = 100:
+filled.contour(x=pi1.true, y=pi1.true, z = y100, zlim = c(0.025, 0.02508), 
+               color.palette = function(n) terrain.colors(n), 
+               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = contour(x=pi1.true, y=pi1.true, z = z100, levels = seq(0.025, 0.02508, 0.00001), add=T))
+#n = 50:
+filled.contour(x=pi1.true, y=pi1.true, z = y50, zlim = c(0.0249, 0.02515), 
+               color.palette = function(n) terrain.colors(n), 
+               main = "n=50", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = contour(x=pi1.true, y=pi1.true, z = z50, levels = seq(0.0249, 0.0252, 0.00002), add=T))
+
+
+#################################################################
+#faster way to conduct the simulation that also calculates SDs
+#################################################################
 #expand.grid unique 
 expand.grid.unique <- function(x, y, include.equals=FALSE)
 {
@@ -125,40 +164,3 @@ sim_piest <- function(Nsim = 10^4, samplesize = 100, stepsize = 0.05, seed = 423
   cbind(pi.true, t(apply(pi.true, 1, f)))
 }
 
-#RUN SIMULATIONS:
-#equal treatment case (corrfct == 1):
-z100 <- sim_piest(samplesize = 100)
-z50 <- sim_piest(samplesize = 50)
-#unequal treatment case (corrfct == 2):
-y100 <- sim_piest(samplesize = 100, corrfct = 2)
-y50 <- sim_piest(samplesize = 50, corrfct = 2)
-
-##############################
-#Contour plots:
-##############################
-#Equal treatment case:
-#n = 100:
-filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(0.025, 0.02507), 
-               color.palette = function(n) gray.colors(n), 
-               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = z100, levels = seq(0.025, 0.02507, 0.00001), add=T))
-#no lines:
-filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(0.025, 0.02507), 
-               color.palette = function(n) gray.colors(n), 
-               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]))
-#n = 50:
-filled.contour(x=pi1.true, y=pi1.true, z = z50, zlim = c(0.0249, 0.02515), 
-               color.palette = function(n) terrain.colors(n), 
-               main = "n=50", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = z50, levels = seq(0.0249, 0.0252, 0.00002), add=T))
-#Unequal treatment case:
-#n = 100:
-filled.contour(x=pi1.true, y=pi1.true, z = y100, zlim = c(0.025, 0.02508), 
-               color.palette = function(n) terrain.colors(n), 
-               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = z100, levels = seq(0.025, 0.02508, 0.00001), add=T))
-#n = 50:
-filled.contour(x=pi1.true, y=pi1.true, z = y50, zlim = c(0.0249, 0.02515), 
-               color.palette = function(n) terrain.colors(n), 
-               main = "n=50", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = z50, levels = seq(0.0249, 0.0252, 0.00002), add=T))
