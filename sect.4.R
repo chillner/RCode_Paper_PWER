@@ -1,6 +1,6 @@
-#######################################
-##upper boundaries conditional FWER
-#######################################
+#################################################
+##upper boundaries conditional FWER (Section 4)
+#################################################
 library(multcomp)
 #m = 3 intersecting sets
 #We test Hi: theta_i <= 0 and reject it if Z_i >= c; i in {1,...,m}
@@ -32,7 +32,7 @@ corrmat <- function(p, poptype = 1){
   }
   return(V)
 }
-#PWER without P_J0
+#PWER
 pwer <- function(crit, p, poptype = 1){
   V <- corrmat(p, poptype)
   if(poptype == 1){
@@ -47,6 +47,7 @@ pwer <- function(crit, p, poptype = 1){
     p[3]*(1-pmvnorm(upper = rep(crit,3), corr = V)[1])
   }
 }
+#PWER without PJ0
 cpwerJ0 <- function(crit, p, poptype = 1){
   V <- corrmat(p, poptype)
   if(poptype == 1){
