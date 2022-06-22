@@ -2,9 +2,8 @@
 #Simulation in Section 5.4
 #################################################
 library(multcomp)
-library(gtools)
-library(rje)
-library(mvtnorm)
+library(gtools) #permutations() function
+library(rje) #powerSet() function
 ##########################################
 #Contrast matrix all subsets
 ##########################################
@@ -54,7 +53,12 @@ critfwerfct <- function(df, R, alpha = 0.025){
 #cf: critical value FWER
 #P: Percentage of hypotheses that are true (q in the paper)
 #K: Number populations
-simul_sun <- function(Nsim = 10^4, cp, cf, alpha = 0.025, theta_A = 0.15, P, K, N = 1056, tau, seed = 4328){
+#theta_A: overall effect
+#tau: heterogeneity parameter for the positive theta_i (larger values of tau lead to more heterogeneity)
+#N: total sample size
+#Nsim: number of simulations
+#alpha: significance level
+simul_sun <- function(Nsim = 10^4, cp, cf, alpha = 0.025, theta_A = 0.1, P, K = 2, N = 1056, tau = 0, seed = 4328){
   #Determination of n and pi:
   n <- rep(N/K, K)
   piv <- n/N
