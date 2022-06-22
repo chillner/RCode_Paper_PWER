@@ -8,6 +8,7 @@ library(mvtnorm)
 ##########################################
 #Contrast matrix all subsets
 ##########################################
+#Function taken from Sun et al.
 contrastMatrix <- function(n, frac){
   m <- (permutations(2,n,rep=T)-1)[-1,]
   m1 <- lapply(seq_along(1:nrow(m)), function(i){
@@ -171,6 +172,9 @@ nu <- function(K,N){N-2*K}
 
 #theta_A = 0.1:
 #K=2:
+#PWER critical value
 cp <- critpwerfct(K=2, df=nu(K=2,N=1056), piv=1/2*rep(1,2), R=findR(K=2, N=1056), rnames=rownames(contrastMatrix(n=2, frac=1/2*rep(1,2))))
+#FWER critical value
 cf <- critfwerfct(df=nu(K=2,N=1056), R=findR(K=2, N=1056))
+#Simulation
 simul_sun(Nsim = 10^4, cp=cp, cf=cf, theta_A = .1, P = 0, K = 2, tau = 0)
