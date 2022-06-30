@@ -88,39 +88,107 @@ z50 <- sim_piest(samplesize = 50)
 y100 <- sim_piest(samplesize = 100, corrfct = 2)
 y50 <- sim_piest(samplesize = 50, corrfct = 2)
 
-#function to find minimum without 0 values in matrix
+#function to find minimum without 0 values in matrix (useful for zlim and levels arguments below when using it for own simulation runs)
 pi1.true = seq(0,1,0.05)
 min0 <- function(x){y <- as.numeric(x); min(y[y>0])}
 
-##############################
-#Code to create contour plots
-##############################
+#Contour plots:
 #Equal treatment case:
 #n = 100:
-filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(min0(z100), max(z100)), 
-               color.palette = function(n) gray.colors(n), 
-               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = z100, levels = seq(min0(z100), max(z100), 0.00001), add=T))
-
+filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(0.025, 0.02507),
+               color.palette = function(n) hcl.colors(n),
+               plot.axes = {
+                 axis(1,seq(0,1,0.2), cex.axis=1.2)
+                 axis(2,seq(0,1,0.2), cex.axis=1.2)
+                 contour(x=pi1.true, y=pi1.true, drawlabels = F, z = z100, levels = seq(.025, .02507, .00001), add=T)},
+               plot.title={
+                 title(main = "n=100 (equal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4, seq(.025, .02507, .00001), cex.axis=1.05)})
+#no lines
+filled.contour(x=pi1.true, y=pi1.true, z = z100, zlim = c(0.025, 0.02507),
+               color.palette = function(n) hcl.colors(n),
+               plot.title={
+                 title(main = "n=100 (equal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4, seq(.025, .02507, .00001), cex.axis=1.05)})
 #n = 50:
-filled.contour(x=pi1.true, y=pi1.true, z = z50, zlim = c(min0(z50), max(z50)), 
-               color.palette = function(n) terrain.colors(n), 
-               main = "n=50", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = z50, levels = seq(min0(z50), max(z50), 0.00002), add=T))
+filled.contour(x=pi1.true, y=pi1.true, z = z50, zlim = c(0.0249, 0.02515),
+               color.palette = function(n) hcl.colors(n),
+               main = "n=50 (equal treatments)", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = {
+                 axis(1,seq(0,1,0.2), cex.axis=1.2)
+                 axis(2,seq(0,1,0.2), cex.axis=1.2)
+                 contour(x=pi1.true, y=pi1.true, z = z50, drawlabels = F, levels = seq(0.0249, 0.0252, 0.000035), add=T)},
+               plot.title={
+                 title(main = "n=50 (equal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4, seq(0.0249, 0.0252, 0.000035), cex.axis=1.05)})
+#no lines:
+filled.contour(x=pi1.true, y=pi1.true, z = z50, zlim = c(0.0249, 0.02515),
+               color.palette = function(n) hcl.colors(n),
+               main = "n=50 (equal treatments)", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.title={
+                 title(main = "n=50 (equal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4, seq(0.0249, 0.0252, 0.000035), cex.axis=1.05)})
 #Unequal treatment case:
 #n = 100:
-filled.contour(x=pi1.true, y=pi1.true, z = y100, zlim = c(min0(y100), max(y100)), 
-               color.palette = function(n) terrain.colors(n), 
-               main = "n=100", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = y100, levels = seq(min0(y100), max(y100), 0.00001), add=T))
+filled.contour(x=pi1.true, y=pi1.true, z = y100, zlim = c(0.025, 0.02506),
+               color.palette = function(n) hcl.colors(n),
+               main = "n=100 (unequal treatments)", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = {
+                 axis(1,seq(0,1,0.2), cex.axis=1.2)
+                 axis(2,seq(0,1,0.2), cex.axis=1.2)
+                 contour(x=pi1.true, y=pi1.true, z = y100, drawlabels = F, levels = seq(0.025, 0.02506, 0.00001), add=T)},
+               plot.title={
+                 title(main = "n=100 (unequal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4, seq(0.025, 0.02506, 0.00001), cex.axis=1.05)})
+#noline:
+filled.contour(x=pi1.true, y=pi1.true, z = y100, zlim = c(0.025, 0.02506),
+               color.palette = function(n) hcl.colors(n),
+               main = "n=100 (unequal treatments)", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.title={
+                 title(main = "n=100 (unequal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4, seq(0.025, 0.02506, 0.00001), cex.axis=1.05)})
 #n = 50:
-filled.contour(x=pi1.true, y=pi1.true, z = y50, zlim = c(min0(y50), max(y50)), 
-               color.palette = function(n) terrain.colors(n), 
-               main = "n=50", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
-               plot.axes = contour(x=pi1.true, y=pi1.true, z = y50, levels = seq(min0(y50), max(y50), 0.00002), add=T))
-
-# values of 0.00001 and 0.00002 can be changed to adjust the look of the plot
-# use color.palette = function(n) hcl.colors(n) for colored version
+filled.contour(x=pi1.true, y=pi1.true, z = y50, zlim = c(0.0249, 0.02509),
+               color.palette = function(n) hcl.colors(n),
+               main = "n=50 (unequal treatments)", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.axes = {
+                 axis(1,seq(0,1,0.2), cex.axis=1.2)
+                 axis(2,seq(0,1,0.2), cex.axis=1.2)
+                 contour(x=pi1.true, y=pi1.true, z = y50, drawlabels = F, levels = seq(0.0249, 0.02509, 0.00003), add=T)},
+               plot.title={
+                 title(main = "n=50 (unequal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4,seq(0.0249, 0.02509, 0.00003), cex.axis=1.05)})
+#nolines:
+filled.contour(x=pi1.true, y=pi1.true, z = y50, zlim = c(0.0249, 0.02509),
+               color.palette = function(n) terrain.colors(n),
+               main = "n=50 (unequal treatments)", xlab = expression(pi["{1}"]), ylab = expression(pi["{2}"]),
+               plot.title={
+                 title(main = "n=50 (unequal treatments)", cex.main=1.5)
+                 title(xlab=expression(pi["{1}"]),cex.lab=1.5)
+                 mtext(expression(pi["{2}"]),2,cex=1.5,line=1.5,las=1)
+               },
+               key.axes = {axis(4,seq(0.0249, 0.02509, 0.00003), cex.axis=1.05)})
 
 #######################################################################################################
 #computationally more efficient way to conduct the simulation that also calculates standard deviations
